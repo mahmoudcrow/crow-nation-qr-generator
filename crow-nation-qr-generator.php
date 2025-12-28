@@ -3,7 +3,7 @@
  * Plugin Name: Crow Nation QR Generator
  * Plugin URI: https://github.com/mahmudmoustafa/crow-nation-qr-generator
  * Description: Dynamic QR Code Generator with redirect & statistics.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Mahmud Moustafa
  * Author URI: https://github.com/mahmudmoustafa
  * Text Domain: crow-nation-qr

@@ -3,11 +3,15 @@
  * Plugin Name: Crow Nation QR Generator
  * Plugin URI: https://github.com/mahmudmoustafa/crow-nation-qr-generator
  * Description: Dynamic QR Code Generator with redirect & statistics.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Mahmud Moustafa
  * Author URI: https://github.com/mahmudmoustafa
  * Text Domain: crow-nation-qr
  */
+require_once CNQR_PATH . 'includes/qr-generator.php';
+require_once CNQR_PATH . 'includes/export-csv.php';
+require_once CNQR_PATH . 'includes/github-updater.php';
+
 
 if (!defined('ABSPATH'))
     exit;
@@ -19,3 +23,13 @@ require_once CNQR_PATH . 'includes/admin-menu.php';
 require_once CNQR_PATH . 'includes/post-type.php';
 require_once CNQR_PATH . 'includes/redirect-handler.php';
 require_once CNQR_PATH . 'includes/stats-tracker.php';
+
+register_activation_hook(__FILE__, function () {
+    cnqr_add_rewrite_rule();
+    flush_rewrite_rules();
+});
+
+register_deactivation_hook(__FILE__, function () {
+    flush_rewrite_rules();
+});
+

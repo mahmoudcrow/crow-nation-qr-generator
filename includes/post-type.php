@@ -16,3 +16,54 @@ function cnqr_register_qr_post_type()
     ]);
 }
 add_action('init', 'cnqr_register_qr_post_type');
+
+function cnqr_add_target_meta()
+{
+    add_meta_box(
+        'cnqr_target',
+        'QR Target URL',
+        'cnqr_target_callback',
+        'cn_qr'
+    );
+}
+add_action('add_meta_boxes', 'cnqr_add_target_meta');
+
+function cnqr_target_callback($post)
+{
+    $value = get_post_meta($post->ID, '_cnqr_target', true);
+    echo '<input type="url" name="cnqr_target" style="width:100%" value="' . esc_attr($value) . '" placeholder="https://example.com">';
+}
+
+function cnqr_save_target_meta($post_id)
+{
+    if (isset($_POST['cnqr_target'])) {
+        update_post_meta($post_id, '_cnqr_target', esc_url_raw($_POST['cnqr_target']));
+    }
+}
+add_action('save_post', 'cnqr_save_target_meta');
+
+function cnqr_add_qr_preview_meta()
+{
+    add_meta_box(
+        'cnqr_preview',
+        'QR Code Preview',
+        'cnqr_preview_callback',
+        'cn_qr',
+        'side'
+    );
+}
+add_action('add_meta_boxes', 'cnqr_add_qr_preview_meta');
+
+function cnqr_preview_callback($post)
+{
+    if (!$post->post_title) {
+        echo '<p>Save the QR code first.</p>';
+        return;
+    }
+
+    $slug = sanitize_title($post->post_title);
+    $qr_image = cnqr_generate_qr_image($slug);
+
+    echo '<img src="' . esc_url($qr_image) . '" style="width:100%;margin-bottom:10px;">';
+    echo '<p><strong>QR URL:</strong><br>' . home_url('/go/' . $slug) . '</p>';
+}

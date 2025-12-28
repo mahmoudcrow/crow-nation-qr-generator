@@ -32,6 +32,7 @@ function cnqr_dashboard()
         echo '<p>No QR codes found.</p></div>';
         return;
     }
+
     echo '<a href="' . admin_url('admin-post.php?action=cnqr_export_csv') . '" class="button button-primary" style="margin-bottom:15px;">Export CSV</a>';
 
     echo '<table class="widefat fixed striped">';
@@ -61,6 +62,4 @@ function cnqr_dashboard()
     }
 
     echo '</tbody></table></div>';
-} {
-    echo '<div class="wrap"><h1>Crow Nation QR Generator</h1><p>Manage your QR codes & statistics.</p></div>';
 }

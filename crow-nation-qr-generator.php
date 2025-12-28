@@ -8,10 +8,6 @@
  * Author URI: https://github.com/mahmudmoustafa
  * Text Domain: crow-nation-qr
  */
-require_once CNQR_PATH . 'includes/qr-generator.php';
-require_once CNQR_PATH . 'includes/export-csv.php';
-require_once CNQR_PATH . 'includes/github-updater.php';
-
 
 if (!defined('ABSPATH'))
     exit;
@@ -19,6 +15,9 @@ if (!defined('ABSPATH'))
 define('CNQR_PATH', plugin_dir_path(__FILE__));
 define('CNQR_URL', plugin_dir_url(__FILE__));
 
+require_once CNQR_PATH . 'includes/qr-generator.php';
+require_once CNQR_PATH . 'includes/export-csv.php';
+require_once CNQR_PATH . 'includes/github-updater.php';
 require_once CNQR_PATH . 'includes/admin-menu.php';
 require_once CNQR_PATH . 'includes/post-type.php';
 require_once CNQR_PATH . 'includes/redirect-handler.php';
@@ -32,4 +31,5 @@ register_activation_hook(__FILE__, function () {
 register_deactivation_hook(__FILE__, function () {
     flush_rewrite_rules();
 });
+
 

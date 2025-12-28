@@ -2,10 +2,9 @@
 if (!defined('ABSPATH'))
     exit;
 
-require_once CNQR_PATH . 'lib/phpqrcode/qrlib.php';
-
 function cnqr_generate_qr_image($slug)
 {
+    require_once CNQR_PATH . 'lib/phpqrcode/qrlib.php';
 
     $upload_dir = wp_upload_dir();
     $qr_dir = $upload_dir['basedir'] . '/cnqr';

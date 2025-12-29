@@ -11,6 +11,7 @@ function cnqr_register_qr_post_type()
         ],
         'public' => false,
         'show_ui' => true,
+        'show_in_menu' => 'crow-nation-qr',
         'menu_icon' => 'dashicons-qrcode',
         'supports' => ['title'],
     ]);

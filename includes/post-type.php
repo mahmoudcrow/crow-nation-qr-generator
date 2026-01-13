@@ -45,13 +45,29 @@ add_action('save_post', 'cnqr_save_target_meta');
 
 function cnqr_add_qr_preview_meta()
 {
-    add_meta_box(
-        'cnqr_preview',
-        'QR Code Preview',
-        'cnqr_preview_callback',
-        'cn_qr',
-        'side'
-    );
+    add_action('add_meta_boxes', function () {
+        add_meta_box(
+            'cnqr_preview',
+            'QR Code Preview',
+            'cnqr_render_qr_preview',
+            'cn_qr',
+            'side',
+            'high'
+        );
+    });
+    function cnqr_render_qr_preview($post)
+    {
+        $slug = sanitize_title($post->post_title);
+
+        if (!$slug) {
+            echo '<p>Save the QR first to generate the code.</p>';
+            return;
+        }
+
+        $qr_url = cnqr_generate_qr_image($slug);
+
+        echo '<img src="' . esc_url($qr_url) . '" style="width:100%;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />';
+    }
 }
 add_action('add_meta_boxes', 'cnqr_add_qr_preview_meta');
 

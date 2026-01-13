@@ -22,6 +22,7 @@ require_once CNQR_PATH . 'includes/admin-menu.php';
 require_once CNQR_PATH . 'includes/post-type.php';
 require_once CNQR_PATH . 'includes/redirect-handler.php';
 require_once CNQR_PATH . 'includes/stats-tracker.php';
+require_once CNQR_PATH . 'lib/phpqrcode/qrlib.php';
 
 register_activation_hook(__FILE__, function () {
     cnqr_add_rewrite_rule();

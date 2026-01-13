@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Crow Nation QR Generator
- * Plugin URI: https://github.com/mahmudmoustafa/crow-nation-qr-generator
+ * Plugin URI: https://github.com/mahmoudcrow/crow-nation-qr-generator
  * Description: Dynamic QR Code Generator with redirect & statistics.
- * Version: 1.0.2
- * Author: Mahmud Moustafa
- * Author URI: https://github.com/mahmudmoustafa
+ * Version: 1.0.3
+ * Author: Mahmoud Moustafa
+ * Author URI: https://github.com/mahmoudcrow
  * Text Domain: crow-nation-qr
  */
 

@@ -87,7 +87,6 @@ add_action('save_post_cn_qr', 'cnqr_save_target_meta');
  */
 function cnqr_preview_callback($post)
 {
-    // لازم يبقى فيه عنوان عشان نطلع منه الـ slug
     if (!$post->post_title) {
         echo '<p>اكتب عنوانًا واحفظ الـ QR أولاً.</p>';
         return;
@@ -102,7 +101,7 @@ function cnqr_preview_callback($post)
     $qr_image = cnqr_generate_qr_image($slug);
 
     if (!$qr_image) {
-        echo '<p>لم يتم توليد QR. تأكد من صلاحيات مجلد uploads.</p>';
+        echo '<p>لم يتم توليد QR. تأكد من صلاحيات مجلد uploads أو من وجود مكتبة phpqrcode.</p>';
         return;
     }
 

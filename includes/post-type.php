@@ -87,26 +87,38 @@ add_action('save_post_cn_qr', 'cnqr_save_target_meta');
  */
 function cnqr_preview_callback($post)
 {
-    if (!$post->post_title) {
-        echo '<p>اكتب عنوانًا واحفظ الـ QR أولاً.</p>';
-        return;
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    try {
+        if (!$post->post_title) {
+            echo '<p>اكتب عنوانًا واحفظ الـ QR أولاً.</p>';
+            return;
+        }
+
+        if (!function_exists('cnqr_generate_qr_image')) {
+            echo '<p>QR generator function not found.</p>';
+            return;
+        }
+
+        $slug = sanitize_title($post->post_title);
+        $qr_image = cnqr_generate_qr_image($slug);
+
+        if (!$qr_image) {
+            echo '<p>لم يتم توليد QR. تأكد من صلاحيات مجلد uploads أو من وجود مكتبة phpqrcode.</p>';
+            return;
+        }
+
+        echo '<div style="text-align:center">';
+        echo '<img src="' . esc_url($qr_image) . '" style="width:100%;margin-bottom:10px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />';
+        echo '<p style="font-size:12px;color:#666;"><strong>QR URL:</strong><br>' . esc_html(home_url('/go/' . $slug)) . '</p>';
+        echo '</div>';
+    } catch (Exception $e) {
+        echo '<p>خطأ في توليد QR: ' . esc_html($e->getMessage()) . '</p>';
+        error_log('CNQR Preview Error: ' . $e->getMessage());
+    } catch (Throwable $t) {
+        echo '<p>خطأ خطير في توليد QR. تحقق من السجلات للتفاصيل.</p>';
+        error_log('CNQR Preview Fatal Error: ' . $t->getMessage());
     }
-
-    if (!function_exists('cnqr_generate_qr_image')) {
-        echo '<p>QR generator function not found.</p>';
-        return;
-    }
-
-    $slug = sanitize_title($post->post_title);
-    $qr_image = cnqr_generate_qr_image($slug);
-
-    if (!$qr_image) {
-        echo '<p>لم يتم توليد QR. تأكد من صلاحيات مجلد uploads أو من وجود مكتبة phpqrcode.</p>';
-        return;
-    }
-
-    echo '<div style="text-align:center">';
-    echo '<img src="' . esc_url($qr_image) . '" style="width:100%;margin-bottom:10px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.1);" />';
-    echo '<p style="font-size:12px;color:#666;"><strong>QR URL:</strong><br>' . esc_html(home_url('/go/' . $slug)) . '</p>';
-    echo '</div>';
 }

@@ -10,12 +10,14 @@ function cnqr_generate_qr_image($slug)
         if (file_exists($lib_path)) {
             require_once $lib_path;
         } else {
+            error_log('CNQR: qrlib.php file not found at ' . $lib_path);
             return false;
         }
     }
 
     // تأكد من وجود الكلاس
     if (!class_exists('QRcode')) {
+        error_log('CNQR: QRcode class not loaded after require_once');
         return false;
     }
 
@@ -34,6 +36,11 @@ function cnqr_generate_qr_image($slug)
 
     // توليد الصورة لو مش موجودة
     if (!file_exists($file_path)) {
+        // Check if GD extension is loaded
+        if (!extension_loaded('gd')) {
+            return false;
+        }
+
         $qr_url = home_url('/go/' . $slug);
 
         try {
